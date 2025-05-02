@@ -9,6 +9,7 @@
   
   <script setup>
   async function sendNotification() {
+    new Notification('It works!', { body: 'Plain test message.' });
     const permission = await Notification.requestPermission()
     console.log(Notification.permission) 
     if (permission === 'granted') {
