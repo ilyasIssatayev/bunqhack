@@ -1,22 +1,36 @@
 <template>
-    <button
-      @click="sendNotification"
-      class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-    >
-      Send Notification
-    </button>
+    <div>
+      <button @click="sendNotification">Send Notification</button>
+    </div>
   </template>
   
-  <script setup>
-  async function sendNotification() {
-    new Notification('It works!', { body: 'Plain test message.' });
-    const permission = await Notification.requestPermission()
-    console.log(Notification.permission) 
-    if (permission === 'granted') {
-        new Notification('It works!', { body: 'Plain test message.' });
-    } else {
-      alert('Notification permission denied')
+  <script>
+  export default {
+    methods: {
+      sendNotification() {
+        // Check if the Notification API is supported
+        if ("Notification" in window) {
+          // Request permission if not granted yet
+          if (Notification.permission === "granted") {
+            // Show notification
+            new Notification("Hi!", {
+              body: "This is your Vue PWA talking!",
+            });
+          } else if (Notification.permission !== "denied") {
+            // Request permission
+            Notification.requestPermission().then(permission => {
+              if (permission === "granted") {
+                new Notification("Hi!", {
+                  body: "This is your Vue PWA talking!",
+                });
+              }
+            });
+          }
+        } else {
+          alert("Your browser does not support notifications.");
+        }
+      }
     }
-  }
+  };
   </script>
   
