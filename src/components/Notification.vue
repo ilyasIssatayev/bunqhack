@@ -5,24 +5,21 @@
   const message = ref('')
 
   async function sendNotification() {
-    new Notification('It works!', { body: 'Plain test message.' });
-    const permission = await Notification.requestPermission()
-    console.log(Notification.permission) 
+  try {
+    const permission = await Notification.requestPermission();
+    console.log('Permission:', permission);
+
     if (permission === 'granted') {
-        try{
-       new Notification('It works!', { body: 'Plain test message.' });
-        message.value = 'it works'
-        }
-        catch(e){
-            message.value = 'error: '+e.toString();
-        }
- 
-        
+      const notif = new Notification('It works!', { body: 'Plain test message.',icon: 'icon-512-512.png' });
+      console.log('notif ',notif)
+      message.value = 'Notification sent';
     } else {
-      alert('Notification permission denied')
-      message.value = 'denied'
+      message.value = 'Notification permission denied';
     }
+  } catch (e) {
+    message.value = 'Error: ' + e.toString();
   }
+}
   </script>
 
 <template>
