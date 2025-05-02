@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import PwaButton from "./components/PwaButton.vue";
+import Notification from "./components/Notification.vue";
 
 const counter = ref(0);
 
@@ -17,5 +18,6 @@ function clickMe() {
     {{ counter }}
 
     <PwaButton></PwaButton>
+    <Notification></Notification>
   </div>
 </template>
