@@ -18,8 +18,8 @@ export default defineConfig({
         enabled: true, // Enables PWA in development mode
       },
       manifest: {
-        name: 'My App',
-        short_name: 'App',
+        name: 'BunQuest',
+        short_name: 'BunqQuest',
         start_url: '/',
         display: 'standalone',
         background_color: '#ffffff',
