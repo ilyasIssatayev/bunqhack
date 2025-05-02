@@ -9,8 +9,14 @@
     const permission = await Notification.requestPermission()
     console.log(Notification.permission) 
     if (permission === 'granted') {
-        new Notification('It works!', { body: 'Plain test message.' });
+        try{
+       new Notification('It works!', { body: 'Plain test message.' });
         message.value = 'it works'
+        }
+        catch(e){
+            message.value = 'error: '+e.toString();
+        }
+ 
         
     } else {
       alert('Notification permission denied')
