@@ -10,11 +10,9 @@
   <script setup>
   async function sendNotification() {
     const permission = await Notification.requestPermission()
+    console.log(Notification.permission) 
     if (permission === 'granted') {
-      new Notification('✅ Notification sent!', {
-        body: 'This is a push-style message.',
-        icon: '/icon-192-192.png'
-      })
+        new Notification('It works!', { body: 'Plain test message.' });
     } else {
       alert('Notification permission denied')
     }
