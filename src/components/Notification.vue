@@ -31,32 +31,44 @@ const fetchPoll = async () => {
         })
         if (!res.ok) throw new Error('Failed to fetch poll')
 
-        const {message} = await res.json()
-        if(message) showNotification(message);
+        const {message, type} = await res.json()
+        if(message) showNotification(message, type);
     } catch (err) {
         // $toast.error('Error: ' + err.message)
     }
 }
 
-const showNotification = (message) => {
-  const bgColor = '#0E2549';
+const showNotification = (message, type) => {
+  let bgColor = '#0E2549';
+  let icon = 'X'
+    console.log('type', MAP[type]);
+  if (type) {
+    bgColor = MAP[type].color ?? "#0E2549";
+    icon = MAP[type].icon ?? "X";
+}
 
-  toast.info(`🚀 ${message}`, {
+    const html = `
+    <div class="custom-toast" style="
+      background-color: ${bgColor}; 
+      color: white; 
+      padding: 12px 16px; 
+      border-radius: 8px;
+      font-size: 14px;
+    ">
+      ${icon} ${message}
+    </div>
+  `;
+
+  toast.info(html, {
     position: 'top-center',
     theme: 'dark',
+    icon: false,
     hideProgressBar: true,
     closeOnClick: false,
     onClick: () => {
       router.push('/reach-the-goal');
     },
     dangerouslyHTMLString: true,
-    style: {
-      backgroundColor: bgColor,
-      color: 'white',
-      padding: '12px 16px',
-      borderRadius: '8px',
-      fontSize: '14px',
-    },
   });
 };
 
