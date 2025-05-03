@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Stepper from '@/components/Stepper.vue'
 import BankDetails from '@/components/BankDetails.vue'
+import ReachTheGoal from '@/components/ReachTheGoal.vue'
 
 const routes = [
   {
@@ -12,6 +13,11 @@ const routes = [
     path: '/bank-details',
     name: 'BankDetails',
     component: BankDetails,
+  },
+  {
+    path: '/reach-the-goal',
+    name: 'ReachTheGoal',
+    component: ReachTheGoal,
   },
 ]
 
