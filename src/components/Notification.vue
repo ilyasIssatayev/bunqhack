@@ -56,7 +56,7 @@ const showNotification = (message) => {
         "theme": "dark",
         "type": "info",
         "closeOnClick": false,
-        "autoClose": 200000,
+        "autoClose": 2000,
         "hideProgressBar": true,
         "dangerouslyHTMLString": true
     });
