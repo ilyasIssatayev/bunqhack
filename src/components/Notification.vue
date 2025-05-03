@@ -18,6 +18,7 @@ const MAP = {
 
 const fetchPoll = async () => {
     const goalId = localStorage.getItem('goalId')
+    if(goalId == undefined || goalId == null) return;
     try {
         const res = await fetch('http://localhost:3000/goal/poll/' + goalId, {
             method: 'GET',
@@ -64,23 +65,6 @@ const showNotification = (message) => {
 }
 
 onMounted(async () => {
-    showNotification("GO")
-    const res = await fetch('http://localhost:3000/goal/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            'description': 'goal_data.description,',
-            'goal': 'goal_data.goal',
-            'goal_sum': '0',
-        })
-    })
-
-    const { id } = await res.json();
-    console.log("ID ", id)
-    ID.value = id;
-
     fetchPoll() // call immediately on mount
     const intervalId = setInterval(fetchPoll, 3000) // then every 3 seconds
 })
