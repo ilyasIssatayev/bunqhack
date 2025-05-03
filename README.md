@@ -1,29 +1,18 @@
 # bunqhack
 
-This template should help get you started developing with Vue 3 in Vite.
+This template helps you get started developing with **Vue 3** using **Vite**, with a backend served separately (e.g., with **FastAPI**) on port **3000**.
 
-## Recommended IDE Setup
+## 📦 Tech Stack
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+- **Frontend**: Vue 3 + Vite
+- **Backend**: External project (e.g., FastAPI) running on port `3000`
+- **API Communication**: REST via `fetch` or `axios`
 
-## Customize configuration
 
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
+## ⚙️ Project Setup (Frontend)
 
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
 
 ```sh
 npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
