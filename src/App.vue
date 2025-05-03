@@ -16,22 +16,7 @@ function clickMe() {
   counter.value++;
 }
 
-onMounted(() => {
-    showNotification();
-});
 
-const showNotification = () => {
-  toast.success('Operation successful! Check you goal progress :)', {
-    position: 'top-center',
-    theme: 'colored',
-    closeOnClick: false,
-    hideProgressBar: true,
-    dangerouslyHTMLString: true,
-    onClick: () => {
-      router.push('/reach-the-goal');
-    },
-  });
-};
 </script>
 
 <template>
