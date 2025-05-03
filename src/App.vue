@@ -31,7 +31,7 @@ const showNotification = () => {
 <template>
   <div class="flex flex-col">
     <div class="w-full min-h-full bg-gradient-to-r from-[#00172e] via-[#23002e] to-[#2e1300] absolute origin-center animate-gradient-animation-linear">
-    <Stepper />
+      <router-view />
   </div>
 
     <PwaButton></PwaButton>
