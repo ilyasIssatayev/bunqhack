@@ -8,18 +8,23 @@ const ID = ref(-1)
 
 const fetchPoll = async () => {
     try {
-        const res = await fetch('http://localhost:3000/goal/poll/'+ID.value)
+        const res = await fetch('http://localhost:3000/goal/poll/' + ID.value, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
         if (!res.ok) throw new Error('Failed to fetch poll')
 
-        poll.value = await res.json()
-        showNotification();
+        const {message} = await res.json()
+        if(message) showNotification(message);
     } catch (err) {
         // $toast.error('Error: ' + err.message)
     }
 }
 
-const showNotification = () => {
-    toast.success('Operation successful!', {
+const showNotification = (message) => {
+    toast.success(message, {
         position: 'top-center',
         "theme": "dark",
         "type": "info",
@@ -42,8 +47,8 @@ onMounted(async () => {
         })
     })
 
-    const {id} = await res.json();
-    console.log("ID ",id)
+    const { id } = await res.json();
+    console.log("ID ", id)
     ID.value = id;
 
     fetchPoll() // call immediately on mount
