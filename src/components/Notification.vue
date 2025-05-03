@@ -10,12 +10,12 @@ const ID = ref(-1)
 
 const MAP = {
     "payment":{
-        color: "#46340A",
-        icon: "XX"
+        color: "#1F423B",
+        icon: "💰"
     },
     "goal-investment":{
         color: "#0E2549",
-        icon: "XX"
+        icon: "🎯"
     }
 }
 
