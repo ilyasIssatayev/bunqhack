@@ -1,62 +1,65 @@
 <script setup>
 import { ref, computed } from 'vue'
 import OverviewModal from '@/components/OverviewModal.vue'
+import GoalChart from '@/components/GoalChart.vue'
 
 const step = ref(0)
-const selectedGoals = ref([])
+const selectedGoal = ref()
 const showOverviewModal = ref(false);
 
 const titles = [
-  'Set Your Goal',
+  'Select Your Goal',
+  'Set up Your Goal',
   'Goals Overview',
   'Notifications'
 ];
 
 const goals = [
   {
-    title: 'Saving',
-    description: 'Description',
-    icon: '#',
-    color: '#4b3300',
-    textColor: '#f0a501'
+    title: 'Emergency Fund',
+    description: 'Build a safety net for unexpected expenses like car repairs or medical bills.',
+    icon: 'fa-solid fa-shield-heart',
+    color: '#004d40',
+    textColor: '#26c6da'
   },
   {
-    title: 'Investment',
-    description: 'Description',
-    icon: '#',
-    color: '#4d0c18',
-    textColor: '#fd2b55'
+    title: 'Vacation Savings',
+    description: 'Set aside money for your next holiday or weekend getaway.',
+    icon: 'fa-solid fa-umbrella-beach',
+    color: '#3e2723',
+    textColor: '#ffcc80'
   },
   {
-    title: 'Stuff 1',
-    description: 'Description',
-    icon: '#',
-    color: '#3c1041',
-    textColor: '#c834d7'
+    title: 'Retirement Investment',
+    description: 'Invest long-term in retirement accounts like IRA or 401(k).',
+    icon: 'fa-solid fa-piggy-bank',
+    color: '#1a237e',
+    textColor: '#7986cb'
   },
   {
-    title: 'Stuff 2',
-    description: 'Description',
-    icon: '#',
-    color: '#00264b',
-    textColor: '#027ffe'
+    title: 'Stock Market',
+    description: 'Grow your wealth through individual stocks or ETFs.',
+    icon: 'fa-solid fa-chart-line',
+    color: '#263238',
+    textColor: '#4dd0e1'
   },
   {
-    title: 'Stuff 3',
-    description: 'Description',
-    icon: '#',
-    color: '#0c433b',
-    textColor: '#2fdec9'
+    title: 'Real Estate Fund',
+    description: 'Save or invest in property or REITs for passive income.',
+    icon: 'fa-solid fa-house-chimney',
+    color: '#4a148c',
+    textColor: '#ba68c8'
   },
   {
-    title: 'Stuff 4',
-    description: 'Description',
-    icon: '#',
-    color: '#0f2b15',
-    textColor: '#328e45'
+    title: 'New Car Fund',
+    description: 'Gradually save for a vehicle upgrade or purchase.',
+    icon: 'fa-solid fa-car-side',
+    color: '#880e4f',
+    textColor: '#f06292'
   }
-]
-const activeSelectedGoal = ref(null);
+];
+
+
 
 const totalSteps = titles.length
 
@@ -66,7 +69,6 @@ const progressWidth = computed(() => {
 
 const handleClose = () => {
   showOverviewModal.value = false;
-  activeSelectedGoal.value = null;
 }
 
 const back = () => {
@@ -79,13 +81,13 @@ const next = () => {
   step.value++
 }
 
-const setStep = (step) => {
-  if (selectedGoals.value.find(el => el.title === step.title)) {
-    selectedGoals.value = selectedGoals.value.filter(el => el.title !== step.title)
-  } else {
-    selectedGoals.value.push(step);
-  }
-}
+const setGoal = (goal) => {
+  selectedGoal.value = {
+    ...goal,
+    description: goal.description || '',
+    amount: goal.amount || 0,
+  };
+};
 </script>
 
 <template>
@@ -101,15 +103,14 @@ const setStep = (step) => {
     </div>
 
     <div v-if="step === 0" class="w-full grid gap-6 text-center">
-      <h2 class="text-3xl text-white/70">Set Your Goal Description</h2>
       <div class="grid grid-cols-2 gap-4">
         <div
           v-for="(goal, index) in goals"
           :key="index"
-          @click="setStep(goal)"
+          @click="setGoal(goal)"
           :class="[
             'block max-w-sm p-6 border-2 rounded-lg shadow-sm hover:brightness-110 transition duration-300 cursor-pointer',
-            selectedGoals.find(el => el.title === goal.title) ? `border-[${goal.textColor}]` : 'border-transparent'
+            selectedGoal?.title === goal.title ? `border-[]` : 'border-transparent'
           ]"
           :style="{
             background: 'rgba(255, 255, 255, 0.09)',
@@ -119,9 +120,10 @@ const setStep = (step) => {
             color: goal.textColor
           }"
         >
-          <span class="mb-2 text-xl font-bold tracking-tight block">
-            {{ goal.title }}
-          </span>
+        <span class="mb-2 text-xl font-bold tracking-tight block flex items-center justify-center gap-2">
+          <i :class="goal.icon" class="text-2xl" :style="{ color: goal.textColor }"></i>
+          {{ goal.title }}
+        </span>
           <p class="font-normal text-white/80">
             {{ goal.description }}
           </p>
@@ -130,34 +132,38 @@ const setStep = (step) => {
     </div>
 
     <div v-else-if="step === 1" class="w-full grid gap-6 text-center">
-      <h2 class="text-3xl text-white/70">Overview Description</h2>
-      <div class="grid grid-cols-2 gap-4">
-        <div
-          v-for="(goal, index) in selectedGoals"
-          :key="index"
-          @click="() => {
-            activeSelectedGoal = goal;
-            showOverviewModal = true;
-          }"
-          :class="[
-            'block max-w-sm p-6 border-2 rounded-lg shadow-sm hover:brightness-110 transition duration-300 cursor-pointer',
-            `border-[${goal.textColor}]`
-          ]"
-          :style="{
-            background: 'rgba(255, 255, 255, 0.09)',
-            borderRadius: '16px',
-            boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
-            backdropFilter: 'blur(5px)',
-            color: goal.textColor
-          }"
-        >
-          <span class="mb-2 text-xl font-bold tracking-tight block">
-            {{ goal.title }}
-          </span>
-          <p class="font-normal text-white/80">
-            {{ goal.description }}
-          </p>
+      <div class="grid gap-8 w-full">
+        <div class="text-left">
+          <label class="block text-white text-lg mb-2">Goal Description</label>
+          <textarea
+            v-model="selectedGoal.description"
+            rows="4"
+            class="w-full px-6 py-4 text-base rounded-xl bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#ff6a00] resize-none"
+            placeholder="e.g. Save for a family vacation next summer"
+          ></textarea>
         </div>
+
+        <div class="text-left">
+          <label class="block text-white text-lg mb-2">Target Amount ($)</label>
+          <input
+            v-model.number="selectedGoal.amount"
+            type="number"
+            min="0"
+            class="w-full px-6 py-4 text-base rounded-xl bg-white/10 text-white border border-white/30 focus:outline-none focus:ring-2 focus:ring-[#ff6a00]"
+            placeholder="e.g. 5000"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="step === 2" class="w-full grid gap-6 text-center">
+      <div class="max-w-2xl mx-auto w-full p-6 rounded-2xl bg-white/5 shadow-xl backdrop-blur-xl text-white">
+        <h2 class="text-3xl font-semibold mb-2">{{ selectedGoal.title }}</h2>
+        <p class="mb-4 text-white/80">{{ selectedGoal.description }}</p>
+        <p class="mb-6 text-lg">🎯 Target Amount: <strong>${{ selectedGoal.amount }}</strong></p>
+        
+        <h3 class="text-xl mb-2">📊 Average Savings (based on community data)</h3>
+        <GoalChart :goal="selectedGoal" />
       </div>
     </div>
 
@@ -168,7 +174,7 @@ const setStep = (step) => {
     <OverviewModal
       v-if="showOverviewModal"
       @close="handleClose"
-      :overviewGoal="activeSelectedGoal"
+      :overviewGoal="selectedGoal"
     />
 
     <div class="flex gap-4 w-full">
