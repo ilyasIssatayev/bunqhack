@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue';
+import { toast } from 'vue3-toastify';
+import { ref, onMounted } from 'vue';
 import PwaButton from "./components/PwaButton.vue";
 import Notification from "./components/Notification.vue";
 import Stepper from '@/components/Stepper.vue'
@@ -8,6 +9,22 @@ const counter = ref(0);
 
 function clickMe() {
   counter.value++;
+}
+
+
+onMounted(()=>{
+  showNotification();
+})
+
+const showNotification = () => {
+    toast.success('Operation successful!', {
+        position: 'top-center',
+        "theme": "dark",
+        "type": "info",
+        "closeOnClick": false,
+        "hideProgressBar": true,
+        "dangerouslyHTMLString": true
+    });
 }
 </script>
 
