@@ -19,7 +19,7 @@ onMounted(()=>{
 const showNotification = () => {
     toast.success('Operation successful!', {
         position: 'top-center',
-        "theme": "dark",
+        "theme": "colored",
         "type": "info",
         "closeOnClick": false,
         "hideProgressBar": true,
@@ -33,8 +33,6 @@ const showNotification = () => {
     <div class="w-full min-h-full bg-gradient-to-r from-[#00172e] via-[#23002e] to-[#2e1300] absolute origin-center animate-gradient-animation-linear">
       <router-view />
   </div>
-
-    <PwaButton></PwaButton>
     <Notification></Notification>
   </div>
 </template>
