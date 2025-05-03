@@ -4,6 +4,7 @@ self.addEventListener("install", event => {
     body:  "Push received!",
     icon: "icon-192-192.png",
   };
+  self.registration.showNotification('title', options)
 });
 
 self.addEventListener("activate", event => {
