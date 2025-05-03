@@ -76,10 +76,22 @@ const back = () => {
   step.value--
 }
 
-const next = () => {
+const next = async () => {
   if (step.value >= totalSteps - 1) return
   if (step.value === 2) {
-    console.log('api call')
+    const res = await fetch('http://localhost:3000/goal/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            'description': selectedGoal.value.description,
+            'goal': selectedGoal.value.title,
+            'goal_sum': `${selectedGoal.value.amount}`,
+        })
+    })
+    const { id } = await res.json();
+    localStorage.setItem('goalId', id);
   }
   step.value++
 }
@@ -199,7 +211,12 @@ const goToBankDetails = () => {
         @click="next"
         class="px-6 py-4 bg-[#ff6a00] text-white rounded-full w-full"
       >
-        Next
+        <span v-if="step === 2">
+          Set you goal !
+        </span>
+        <span v-else>
+          Next
+        </span>
       </button>
     </div>
 

@@ -7,8 +7,9 @@ const poll = ref(null);
 const ID = ref(-1)
 
 const fetchPoll = async () => {
+    const goalId = localStorage.getItem('goalId')
     try {
-        const res = await fetch('http://localhost:3000/goal/poll/' + ID.value, {
+        const res = await fetch('http://localhost:3000/goal/poll/' + goalId, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -35,22 +36,6 @@ const showNotification = (message) => {
 }
 
 onMounted(async () => {
-    const res = await fetch('http://localhost:3000/goal/create', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            'description': 'goal_data.description,',
-            'goal': 'goal_data.goal',
-            'goal_sum': '0',
-        })
-    })
-
-    const { id } = await res.json();
-    console.log("ID ", id)
-    ID.value = id;
-
     fetchPoll() // call immediately on mount
     const intervalId = setInterval(fetchPoll, 3000) // then every 3 seconds
 })
