@@ -1,18 +1,20 @@
 <script setup>
 import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import OverviewModal from '@/components/OverviewModal.vue'
 import GoalChart from '@/components/GoalChart.vue'
 
+const router = useRouter() 
 const step = ref(0)
 const selectedGoal = ref()
-const showOverviewModal = ref(false);
+const showOverviewModal = ref(false)
 
 const titles = [
   'Select Your Goal',
   'Set up Your Goal',
   'Goals Overview',
-  'Notifications'
-];
+  'You set a new Goal !'
+]
 
 const goals = [
   {
@@ -57,9 +59,7 @@ const goals = [
     color: '#880e4f',
     textColor: '#f06292'
   }
-];
-
-
+]
 
 const totalSteps = titles.length
 
@@ -68,7 +68,7 @@ const progressWidth = computed(() => {
 })
 
 const handleClose = () => {
-  showOverviewModal.value = false;
+  showOverviewModal.value = false
 }
 
 const back = () => {
@@ -78,6 +78,9 @@ const back = () => {
 
 const next = () => {
   if (step.value >= totalSteps - 1) return
+  if (step.value === 2) {
+    console.log('api call')
+  }
   step.value++
 }
 
@@ -85,14 +88,19 @@ const setGoal = (goal) => {
   selectedGoal.value = {
     ...goal,
     description: goal.description || '',
-    amount: goal.amount || 0,
-  };
-};
+    amount: goal.amount || 0
+  }
+}
+
+const goToBankDetails = () => {
+  router.push('/bank-details')
+}
 </script>
 
 <template>
-  <div class="w-full h-full p-4 flex flex-col justify-between items-center">
-    <div class="w-full max-w-md text-center text-gray-800 text-lg font-medium">
+  <div class="w-full h-full p-4 flex-col items-between grid gap-6">
+
+    <div class="w-full text-center text-gray-800 text-lg font-medium">
       <h1 class="text-5xl font-semibold text-white mb-4 transition-all duration-300">{{ titles[step] }}</h1>
       <div class="w-full bg-gray-200 rounded-full h-1.5 mb-4 dark:bg-gray-700">
         <div
@@ -109,7 +117,7 @@ const setGoal = (goal) => {
           :key="index"
           @click="setGoal(goal)"
           :class="[
-            'block max-w-sm p-6 border-2 rounded-lg shadow-sm hover:brightness-110 transition duration-300 cursor-pointer',
+            'block p-6 border-2 rounded-lg shadow-sm hover:brightness-110 transition duration-300 cursor-pointer',
             selectedGoal?.title === goal.title ? `border-[]` : 'border-transparent'
           ]"
           :style="{
@@ -120,7 +128,7 @@ const setGoal = (goal) => {
             color: goal.textColor
           }"
         >
-        <span class="mb-2 text-xl font-bold tracking-tight block flex items-center justify-center gap-2">
+        <span class="mb-2 text-xl font-bold tracking-tight grid items-center justify-center gap-2">
           <i :class="goal.icon" class="text-2xl" :style="{ color: goal.textColor }"></i>
           {{ goal.title }}
         </span>
@@ -157,7 +165,7 @@ const setGoal = (goal) => {
     </div>
 
     <div v-else-if="step === 2" class="w-full grid gap-6 text-center">
-      <div class="max-w-2xl mx-auto w-full p-6 rounded-2xl bg-white/5 shadow-xl backdrop-blur-xl text-white">
+      <div class="mx-auto w-full p-6 rounded-2xl bg-white/5 shadow-xl backdrop-blur-xl text-white">
         <h2 class="text-3xl font-semibold mb-2">{{ selectedGoal.title }}</h2>
         <p class="mb-4 text-white/80">{{ selectedGoal.description }}</p>
         <p class="mb-6 text-lg">🎯 Target Amount: <strong>${{ selectedGoal.amount }}</strong></p>
@@ -168,16 +176,18 @@ const setGoal = (goal) => {
     </div>
 
     <div v-else>
-      <h2 class="text-3xl text-white/70">Notifications Description</h2>
+      <div class="flex justify-center items-center text-white/70 text-center">
+        <i class="fa-solid fa-check-circle text-4xl text-green-500 mr-4"></i>
+        <h2 class="text-3xl font-semibold">
+          You have successfully set your goal!
+        </h2>
+      </div>
+      <p class="mt-4 text-lg text-white/80 text-center">
+        Congratulations! Your goal is now saved. You're on your way to achieving your target. Check out your progress and start taking steps towards your financial success!
+      </p>
     </div>
 
-    <OverviewModal
-      v-if="showOverviewModal"
-      @close="handleClose"
-      :overviewGoal="selectedGoal"
-    />
-
-    <div class="flex gap-4 w-full">
+    <div v-if="step < titles.length - 1" class="flex gap-4 w-full">
       <button
         @click="back"
         :class="!step ? 'opacity-60' : ''"
@@ -190,6 +200,15 @@ const setGoal = (goal) => {
         class="px-6 py-4 bg-[#ff6a00] text-white rounded-full w-full"
       >
         Next
+      </button>
+    </div>
+
+    <div v-else class="flex gap-4 w-full">
+      <button
+        @click="goToBankDetails"
+        class="px-6 py-4 bg-[#4caf50] text-white rounded-full w-full"
+      >
+        Go to Bank Details
       </button>
     </div>
   </div>
