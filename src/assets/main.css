@@ -1,2 +1,41 @@
 @import './base.css';
 @import "tailwindcss";
+
+.Toastify__toast{
+  background-color: transparent!important;
+  margin:0!important;
+  padding:0!important;
+  min-height: 0!important;
+}
+
+.Toastify__close-button{
+  display: none;
+}
+
+@media (max-width: 480px) {
+
+  .Toastify__toast{
+    border-radius: 16px;
+  }
+}
+
+.toast-content{
+  display: flex;
+  height: 100%;
+
+  div{
+    display: flex;
+  }
+}
+
+.Toastify__toast-body{
+  display: flex!important;
+  white-space: wrap!important;
+  margin:0!important;
+  padding: 2px 8px!important;
+  align-items: stretch!important;
+}
+
+.Toastify__progress-bar{
+  display: none;
+}
