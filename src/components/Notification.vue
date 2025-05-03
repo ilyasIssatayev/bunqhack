@@ -53,7 +53,7 @@ const showNotification = (message, type) => {
       color: white; 
       padding: 12px 16px; 
       border-radius: 8px;
-      font-size: 14px;
+      font-size: 20px;
     ">
       ${icon} ${message}
     </div>
